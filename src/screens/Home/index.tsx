@@ -1,75 +1,78 @@
-import { StyleSheet, Text, View, FlatList, Pressable, SafeAreaView } from 'react-native'
-import React, { useState, useEffect } from 'react'
-import axios from 'axios'
-import ProductList from '../../components/ProductList'
-import { Product } from './types'
+import React, { useEffect, useState } from 'react';
+import { FlatList, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import axios from 'axios';
+
+import ProductList from '../../components/ProductList';
+import { Product } from './types';
 
 const HomeScreen = () => {
     const [products, setProducts] = useState<Product[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         axios.get("http://3.223.25.80:8080/rentole-api/api/Product/GetProductIds")
-            .then((response) =>
-                setProducts(response.data)
-            )
-            .catch((error) => console.log(error))
+            .then((response) => {
+                setProducts(response.data);
+                setLoading(false);
+            })
+            .catch((error) => {
+                setError('Error fetching data. Please try again later.');
+                setLoading(false);
+            });
     }, []);
-   
 
     return (
         <SafeAreaView style={styles.container}>
-            <FlatList
-                data={products}
-                keyExtractor={(item) => item.productId.toString()}
-                renderItem={({ item }) => <ProductList data={item} />}
-            />
+            {loading ? (
+                <View style={styles.loadingContainer}>
+                    <Text>Loading...</Text>
+                </View>
+            ) : error ? (
+                <View style={styles.errorContainer}>
+                    <Text style={styles.errorText}>{error}</Text>
+                </View>
+            ) : products.length === 0 ? (
+                <View style={styles.emptyContainer}>
+                    <Text style={styles.emptyText}>No products found.</Text>
+                </View>
+            ) : (
+                <FlatList
+                    data={products}
+                    keyExtractor={(item) => item.productId.toString()}
+                    renderItem={({ item }) => <ProductList data={item} />}
+                />
+            )}
         </SafeAreaView>
-    )
-}
-
-
-export default HomeScreen
+    );
+};
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-    },
-    card: {
-        flex: 1,
         backgroundColor: '#fff',
-        padding: 10,
-        paddingVertical: 20,
-        borderBottomWidth: 5,
-        borderBottomColor: 'black'
     },
-    cardView: {
+    loadingContainer: {
         flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'space-between'
-    },
-    btnsView: {
-        flex: 1,
-        flexDirection: 'row',
+        justifyContent: 'center',
         alignItems: 'center',
-        justifyContent: 'center'
     },
-    btn: {
-        paddingHorizontal: 5,
-        borderWidth: 1,
-        borderColor: 'black',
-        marginHorizontal: 5
+    errorContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
-    cardText: {
-        color: '#000000',
-        fontSize: 14
+    errorText: {
+        color: 'red',
     },
-    timer: {
-        alignSelf: 'center',
-        marginBottom: 10,
-        fontWeight: 'bold',
-        color: 'black'
+    emptyContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
-    btnText: {
-        color: 'black'
-    }
-})
+    emptyText: {
+        color: 'gray',
+    },
+});
+
+export default HomeScreen;
