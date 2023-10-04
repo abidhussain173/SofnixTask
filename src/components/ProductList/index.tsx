@@ -1,14 +1,6 @@
 import React, { memo, useEffect, useState, useRef } from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
-
-interface Product {
-    productId: string;
-    timeInSeconds: number;
-}
-
-interface ProductListProps {
-    data: Product;
-}
+import { ProductListProps } from './types';
 
 const ProductList: React.FC<ProductListProps> = ({ data }) => {
     const [totalSeconds, setTotalSeconds] = useState<number>(data.timeInSeconds);
@@ -26,7 +18,7 @@ const ProductList: React.FC<ProductListProps> = ({ data }) => {
         } else {
             clearInterval(timer.current!);
             if (totalSeconds === 0) {
-                setCounterCompleted(true); // Counter has completed
+                setCounterCompleted(true);
             }
         }
 
@@ -39,11 +31,9 @@ const ProductList: React.FC<ProductListProps> = ({ data }) => {
 
     useEffect(() => {
         if (counterCompleted) {
-            // Make the API call when counterCompleted is true
             fetch(`http://3.223.25.80:8080/TestAPI/api/Product/GetProductDetailById?ProductId=${data.productId}`)
                 .then((response) => response.json())
                 .then((data) => {
-                    // Update the productPrice state with the API response
                     setProductPrice(data.price);
                     console.log(data);
                     setProductName(data.productName);
@@ -55,14 +45,17 @@ const ProductList: React.FC<ProductListProps> = ({ data }) => {
     }, [counterCompleted, data.productId]);
 
     const formatTime = (totalSeconds: number): string => {
-        let hours = Math.floor(totalSeconds / 3600);
-        let minutes = Math.floor((totalSeconds % 3600) / 60);
-        let remainingSeconds = totalSeconds % 60;
-        hours = hours < 10 ? '0' + hours : hours;
-        minutes = minutes < 10 ? '0' + minutes : minutes;
-        remainingSeconds = remainingSeconds < 10 ? '0' + remainingSeconds : remainingSeconds;
+        let hours: string | number = Math.floor(totalSeconds / 3600);
+        let minutes: string | number = Math.floor((totalSeconds % 3600) / 60);
+        let remainingSeconds: string | number = totalSeconds % 60;
+
+        hours = hours < 10 ? '0' + hours : hours.toString();
+        minutes = minutes < 10 ? '0' + minutes : minutes.toString();
+        remainingSeconds = remainingSeconds < 10 ? '0' + remainingSeconds : remainingSeconds.toString();
+
         return hours + ':' + minutes + ':' + remainingSeconds;
     };
+
 
     const handlePauseResume = (): void => {
         setIsActive(!isActive);
@@ -153,6 +146,6 @@ const styles = StyleSheet.create({
         alignSelf:'flex-start',
         marginBottom: 10,
         fontWeight: 'bold',
-        color: 'green', // You can change the color to your desired color
+        color: 'green', 
     },
 });

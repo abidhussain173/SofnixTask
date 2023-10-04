@@ -1,10 +1,11 @@
 import { StyleSheet, Text, View, FlatList, Pressable, SafeAreaView } from 'react-native'
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import ProductList from '../../components/ProductList'
+import { Product } from './types'
 
 const HomeScreen = () => {
-    const [products, setProducts] = useState([])
+    const [products, setProducts] = useState<Product[]>([]);
 
     useEffect(() => {
         axios.get("http://3.223.25.80:8080/rentole-api/api/Product/GetProductIds")
@@ -20,9 +21,7 @@ const HomeScreen = () => {
             <FlatList
                 data={products}
                 keyExtractor={(item) => item.productId.toString()}
-                renderItem={({ item }) => (
-                    <ProductList data={item} />
-                )}
+                renderItem={({ item }) => <ProductList data={item} />}
             />
         </SafeAreaView>
     )
