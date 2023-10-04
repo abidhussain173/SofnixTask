@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, FlatList, Pressable } from 'react-native'
+import { StyleSheet, Text, View, FlatList, Pressable, SafeAreaView } from 'react-native'
 import React, { useState, useEffect, useRef } from 'react'
 import axios from 'axios'
 import ProductList from '../../components/ProductList'
@@ -16,7 +16,7 @@ const HomeScreen = () => {
    
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <FlatList
                 data={products}
                 keyExtractor={(item) => item.productId.toString()}
@@ -24,7 +24,7 @@ const HomeScreen = () => {
                     <ProductList data={item} />
                 )}
             />
-        </View>
+        </SafeAreaView>
     )
 }
 
@@ -33,11 +33,7 @@ export default HomeScreen
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#f0f0f0',
-        margin: 10,
-        borderWidth: 5,
-        borderColor: 'black',
-        borderRadius: 10
+        flex: 1,
     },
     card: {
         flex: 1,
