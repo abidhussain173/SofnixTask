@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {FlatList, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import axios from 'axios';
+import { ExStyles } from './styles';
 
 import ProductList from '../../components/ProductList';
 import {Product} from './types';
@@ -24,18 +25,18 @@ const HomeScreen = () => {
   }, []);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={ExStyles.container}>
       {loading ? (
-        <View style={styles.loadingContainer}>
+        <View style={ExStyles.loadingContainer}>
           <Text>Loading...</Text>
         </View>
       ) : error ? (
-        <View style={styles.errorContainer}>
-          <Text style={styles.errorText}>{error}</Text>
+        <View style={ExStyles.errorContainer}>
+          <Text style={ExStyles.errorText}>{error}</Text>
         </View>
       ) : products.length === 0 ? (
-        <View style={styles.emptyContainer}>
-          <Text style={styles.emptyText}>No products found.</Text>
+        <View style={ExStyles.emptyContainer}>
+          <Text style={ExStyles.emptyText}>No products found.</Text>
         </View>
       ) : (
         <FlatList
@@ -47,33 +48,4 @@ const HomeScreen = () => {
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  errorContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  errorText: {
-    color: 'red',
-  },
-  emptyContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  emptyText: {
-    color: 'gray',
-  },
-});
-
 export default HomeScreen;

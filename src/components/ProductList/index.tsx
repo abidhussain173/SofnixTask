@@ -1,6 +1,7 @@
 import React, {memo, useEffect, useState, useRef} from 'react';
 import {View, Text, StyleSheet, Pressable} from 'react-native';
 import {ProductListProps} from './types';
+import { ExStyles } from './styles';
 
 const ProductList: React.FC<ProductListProps> = ({data}) => {
   const [totalSeconds, setTotalSeconds] = useState<number>(data.timeInSeconds);
@@ -74,18 +75,18 @@ const ProductList: React.FC<ProductListProps> = ({data}) => {
   };
 
   return (
-    <View style={styles.card}>
-      <View style={styles.cardView}>
+    <View style={ExStyles.card}>
+      <View style={ExStyles.cardView}>
         <View>
-          <Text style={styles.cardText}>ProductID: {data.productId}</Text>
+          <Text style={ExStyles.cardText}>ProductID: {data.productId}</Text>
         </View>
         <View>
           {counterCompleted ? (
-            <View style={styles.priceView}>
-              <Text style={styles.priceText}>
+            <View style={ExStyles.priceView}>
+              <Text style={ExStyles.priceText}>
                 Price: {productName !== null ? `${productName}` : 'Loading...'}
               </Text>
-              <Text style={styles.priceText}>
+              <Text style={ExStyles.priceText}>
                 Price:{' '}
                 {productPrice !== null
                   ? `${productPrice.toFixed(2)}`
@@ -94,16 +95,16 @@ const ProductList: React.FC<ProductListProps> = ({data}) => {
             </View>
           ) : (
             <>
-              <View style={styles.timerView}>
-                <Text style={styles.timer}>{formatTime(totalSeconds)}</Text>
-                <View style={styles.btnsView}>
-                  <Pressable onPress={handlePauseResume} style={styles.btn}>
-                    <Text style={styles.btnText}>
+              <View style={ExStyles.timerView}>
+                <Text style={ExStyles.timer}>{formatTime(totalSeconds)}</Text>
+                <View style={ExStyles.btnsView}>
+                  <Pressable onPress={handlePauseResume} style={ExStyles.btn}>
+                    <Text style={ExStyles.btnText}>
                       {isActive ? 'PAUSE' : 'RESUME'}
                     </Text>
                   </Pressable>
-                  <Pressable onPress={handleReset} style={styles.btn}>
-                    <Text style={styles.btnText}>RESET</Text>
+                  <Pressable onPress={handleReset} style={ExStyles.btn}>
+                    <Text style={ExStyles.btnText}>RESET</Text>
                   </Pressable>
                 </View>
               </View>
@@ -117,60 +118,4 @@ const ProductList: React.FC<ProductListProps> = ({data}) => {
 
 export default memo(ProductList);
 
-const styles = StyleSheet.create({
-  card: {
-    flex: 1,
-    backgroundColor: '#fff',
-    padding: 10,
-    paddingVertical: 10,
-    borderBottomWidth: 5,
-    borderBottomColor: 'black',
-  },
-  cardView: {
-    flex: 1,
-    justifyContent: 'space-between',
-    alignContent: 'center',
-  },
-  priceView: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 20,
-  },
-  btnsView: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  btn: {
-    paddingHorizontal: 5,
-    borderWidth: 1,
-    borderColor: 'black',
-    marginHorizontal: 5,
-  },
-  cardText: {
-    color: '#000000',
-    fontSize: 14,
-  },
-  timerView: {
-    flex: 1,
-    alignSelf: 'flex-end',
-  },
-  timer: {
-    alignSelf: 'center',
-    marginBottom: 15,
-    fontWeight: 'bold',
-    color: 'black',
-    fontSize: 20,
-    marginTop: -15,
-  },
-  btnText: {
-    color: 'black',
-  },
-  priceText: {
-    alignSelf: 'flex-start',
-    marginBottom: 10,
-    color: 'black',
-  },
-});
+
