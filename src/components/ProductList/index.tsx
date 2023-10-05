@@ -38,7 +38,6 @@ const ProductList: React.FC<ProductListProps> = ({data}) => {
         .then(response => response.json())
         .then(data => {
           setProductPrice(data.price);
-          console.log(data);
           setProductName(data.productName);
         })
         .catch(error => {
