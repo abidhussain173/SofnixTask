@@ -1,7 +1,6 @@
 interface Product {
     productId: string;
-    timeInSeconds: number;
-}
+    timeInSeconds: number}
 
 export interface ProductListProps {
     data: Product;

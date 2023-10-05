@@ -1,7 +1,7 @@
 import React, {memo, useEffect, useState, useRef} from 'react';
 import {View, Text, StyleSheet, Pressable} from 'react-native';
 import {ProductListProps} from './types';
-import { ExStyles } from './styles';
+import {  styles } from './styles';
 
 const ProductList: React.FC<ProductListProps> = ({data}) => {
   const [totalSeconds, setTotalSeconds] = useState<number>(data.timeInSeconds);
@@ -74,18 +74,18 @@ const ProductList: React.FC<ProductListProps> = ({data}) => {
   };
 
   return (
-    <View style={ExStyles.card}>
-      <View style={ExStyles.cardView}>
+    <View style={styles.card}>
+      <View style={styles.cardView}>
         <View>
-          <Text style={ExStyles.cardText}>ProductID: {data.productId}</Text>
+          <Text style={styles.cardText}>ProductID: {data.productId}</Text>
         </View>
         <View>
           {counterCompleted ? (
-            <View style={ExStyles.priceView}>
-              <Text style={ExStyles.priceText}>
+            <View style={styles.priceView}>
+              <Text style={styles.priceText}>
                 Price: {productName !== null ? `${productName}` : 'Loading...'}
               </Text>
-              <Text style={ExStyles.priceText}>
+              <Text style={styles.priceText}>
                 Price:{' '}
                 {productPrice !== null
                   ? `${productPrice.toFixed(2)}`
@@ -94,16 +94,16 @@ const ProductList: React.FC<ProductListProps> = ({data}) => {
             </View>
           ) : (
             <>
-              <View style={ExStyles.timerView}>
-                <Text style={ExStyles.timer}>{formatTime(totalSeconds)}</Text>
-                <View style={ExStyles.btnsView}>
-                  <Pressable onPress={handlePauseResume} style={ExStyles.btn}>
-                    <Text style={ExStyles.btnText}>
+              <View style={styles.timerView}>
+                <Text style={styles.timer}>{formatTime(totalSeconds)}</Text>
+                <View style={styles.btnsView}>
+                  <Pressable onPress={handlePauseResume} style={styles.btn}>
+                    <Text style={styles.btnText}>
                       {isActive ? 'PAUSE' : 'RESUME'}
                     </Text>
                   </Pressable>
-                  <Pressable onPress={handleReset} style={ExStyles.btn}>
-                    <Text style={ExStyles.btnText}>RESET</Text>
+                  <Pressable onPress={handleReset} style={styles.btn}>
+                    <Text style={styles.btnText}>RESET</Text>
                   </Pressable>
                 </View>
               </View>

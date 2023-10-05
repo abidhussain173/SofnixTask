@@ -1,5 +1,6 @@
 import {StyleSheet} from 'react-native'
-const ExStyles = StyleSheet.create({
+
+export const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
@@ -26,4 +27,3 @@ const ExStyles = StyleSheet.create({
     color: 'gray',
   },
 });
-export {ExStyles};

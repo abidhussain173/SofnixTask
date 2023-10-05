@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from 'react';
-import {FlatList, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import axios from 'axios';
-import { ExStyles } from './styles';
+import React, { useEffect, useState } from 'react';
+import { FlatList, SafeAreaView, Text, View } from 'react-native';
+import { styles } from './styles';
 
 import ProductList from '../../components/ProductList';
-import {Product} from './types';
+import { Product } from './types';
 
 const HomeScreen = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -24,27 +24,38 @@ const HomeScreen = () => {
       });
   }, []);
 
+
+  if (loading){
+    return(
+      <View style={styles.loadingContainer}>
+        <Text>Loading...</Text>
+      </View>
+    )
+  }
+
+  if (error){
+    return(
+      <View style={styles.errorContainer}>
+        <Text style={styles.errorText}>{error}</Text>
+      </View>
+    )
+  }
+
+  if (products.length === 0){
+    return(
+      <View style={styles.emptyContainer}>
+        <Text style={styles.emptyText}>No products found.</Text>
+      </View>
+    )
+  }
+
   return (
-    <SafeAreaView style={ExStyles.container}>
-      {loading ? (
-        <View style={ExStyles.loadingContainer}>
-          <Text>Loading...</Text>
-        </View>
-      ) : error ? (
-        <View style={ExStyles.errorContainer}>
-          <Text style={ExStyles.errorText}>{error}</Text>
-        </View>
-      ) : products.length === 0 ? (
-        <View style={ExStyles.emptyContainer}>
-          <Text style={ExStyles.emptyText}>No products found.</Text>
-        </View>
-      ) : (
+    <SafeAreaView style={styles.container}>
         <FlatList
           data={products}
           keyExtractor={item => item.productId.toString()}
           renderItem={({item}) => <ProductList data={item} />}
         />
-      )}
     </SafeAreaView>
   );
 };
